@@ -1,0 +1,246 @@
+{% extends "base_blog.html" %}
+
+{% block title %}MyBlog{% endblock title %}
+
+{% block style %}
+    <style>
+        {% block substyle %} {% endblock substyle %}
+
+        #nav {
+            //background: #333333;
+
+        }
+
+        #catalog {
+
+            background: #383C48B3;
+            height:850px;
+            border: 1px solid #b3b3b3;
+            //margin-left: -10px;
+        }
+
+        .mylogo {
+
+            font-size: 140%;
+        }
+
+
+        .mysize {
+
+            font-size: 120%;
+        }
+
+
+        .mytopsize {
+
+            margin-top: 65px;
+        }
+
+
+        .mypadding {
+            padding-right: 5px;
+            padding-left: 5px;
+        }
+
+       #article {
+
+            margin-bottom: 6px;
+            //margin-right: -10px;
+        }
+
+       #article h3 {
+            margin-top: 0px;
+            margin-bottom: 5px;
+            color: #0095dd;
+            font-family: Charcoal, sans-serif;
+            //text-align: center;
+        }
+
+       #article p {
+            margin-bottom: 2px;
+            font-size: 130%;
+            line-height: 1.5;
+
+
+        }
+
+       #footer {
+            font-size:110%;
+            background-color:black;
+            color:white;
+            clear:both;
+            text-align:center
+        }
+
+
+    .alert {
+
+        width:20%;
+        text-align:center;
+        position:absolute;
+        top:10%;
+        left:30%;
+        z-index:1;
+    }
+
+    .modal-content {
+        border: 1px solid #999;
+    }
+
+    .modal-dialog {
+        margin-top:20%;
+       // width:16%;
+    }
+
+    .modal-header {
+        padding:5px;
+        background: #7aba7b;
+    }
+    .modal-body {
+
+        text-align: center;
+        font-size: 120%;
+
+    }
+    .modal-footer {
+        padding:5px;
+    }
+
+    #id_content {
+
+
+    }
+
+    </style>
+{% endblock style %}
+
+
+
+{% block content %}
+
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav id="nav" class="navbar navbar-default navbar-inverse navbar-fixed-top " role="navigation">
+				<div class="navbar-header">
+					 
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						 <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand  mylogo" href="{% url "index" %}">学海无涯</a>
+				</div>
+				
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="active">
+							<a class="mysize" href="{% url "index" %}">首页</a>
+						</li>
+						<li>
+							<a class="mysize" href="#">关于我</a>
+						</li>
+                        <li>
+							<a class="mysize" href="#">联系我</a>
+						</li>
+                        <li>
+							<a class="mysize" href={% url "blog_add_page" %}>新增</a>
+						</li>
+
+					</ul>
+					<form class="navbar-form navbar-left" role="search">
+						<div class="form-group">
+							<input type="text" class="form-control">
+						</div> 
+						<button type="submit" class="btn btn-default">
+							搜索
+						</button>
+					</form>
+					<ul class="nav navbar-nav navbar-left">
+						<li>
+							<a class="mysize" href="#">Link</a>
+						</li>
+						<li class="dropdown">
+							 <a class="mysize" href="#" class="dropdown-toggle" data-toggle="dropdown">其他<strong class="caret"></strong></a>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="#">Action</a>
+								</li>
+								<li>
+									<a href="#">Another action</a>
+								</li>
+								<li>
+									<a href="#">Something else here</a>
+								</li>
+								<li class="divider">
+								</li>
+								<li>
+									<a href="#">Separated link</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</div>
+
+    {% block subcontent %}
+
+	<div class="row mytopsize ">
+
+    {% block article %}
+		<div class="col-xs-12 col-sm-9 col-md-10 mypadding">
+
+
+
+            {% for article in articles %}
+
+                <div id="article" class="well well-sm">
+                    <h3> {{ article.title }} </h3>
+
+                    {% ifequal article.tag "python" %} <span class="label label-primary"> {{ article.tag }} </span> {% endifequal %}
+                    {% ifequal article.tag "django" %} <span class="label label-success"> {{ article.tag }} </span> {% endifequal %}
+                    {% ifequal article.tag "css" %} <span class="label label-info"> {{ article.tag }} </span> {% endifequal %}
+                    {% ifequal article.tag "linux" %} <span class="label label-warning"> {{ article.tag }} </span> {% endifequal %}
+                    {% ifequal article.tag "test" %} <span class="label label-danger"> {{ article.tag }} </span> {% endifequal %}
+                    {% ifequal article.tag "others" %} <span class="label label-default"> {{ article.tag }} </span> {% endifequal %}
+
+
+                    <p>  {{ article.content|safe|truncatechars:80 }} </p>
+                    <p>  {{ article.datetime }} </p>
+                    <p>
+                        <a class="btn btn-primary btn-large" href="{% url "blog_show_article" article.id %}">阅读全文</a>
+                    </p>
+                </div>
+
+            {% endfor %}
+
+		</div>
+
+		<div class="col-xs-4 col-sm-3 col-md-2 hidden-xs mypadding">
+
+            <div id="catalog" >
+                <h3> Reverse for Col-md-2 Space </h3>
+
+                <span class="label label-primary">python</span>
+                <span class="label label-success">django</span>
+                <span class="label label-info">css</span>
+                <span class="label label-warning">linux</span>
+                <span class="label label-danger">test</span>
+                <span class="label label-default">others</span>
+
+            </div>
+
+
+		</div>
+
+    {% endblock article %}
+
+	</div>
+
+        {% endblock subcontent %}
+
+
+
+</div>
+
+{% endblock content %}

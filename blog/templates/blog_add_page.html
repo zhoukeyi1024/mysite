@@ -1,0 +1,83 @@
+{% extends "index.html" %}
+
+{% block substyle %}
+
+
+    #blog {
+
+    width: 50%;
+    margin: auto;
+    min-height: 750px;
+    }
+
+    h3 {
+    //text-align: center;
+    color:#0095dd;
+    margin-top: 80px;
+
+    }
+
+    hr {
+    margin: 0px auto 20px auto;
+    width: 100%;
+    }
+
+    label  {
+    //color: red;
+    font-size: 120%;
+    }
+
+    .errorlist {
+        color: red;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+
+    }
+
+
+
+
+{% endblock substyle %}
+
+
+{% block subcontent %}
+
+
+<h3>添加新文章</h3>
+
+<hr>
+
+<div id="blog" >
+<form  class="form-horizontal" role="form" action="{% url "blog_add_page" %}" method="POST">
+        {% csrf_token %}
+
+{% for field in form %}
+      <div class="form-group">
+          {{ field.label_tag }}
+          {{ field }}
+          {{ field.errors }}
+      </div>
+{% endfor %}
+
+
+
+
+
+    <div class="form-group">
+        <button class="btn btn-primary btn-block " type="submit">提交</button>
+    </div>
+
+</form>
+</div>
+
+{% endblock subcontent %}
+
+{% block js %}
+
+<script type="text/javascript">
+    var editor = new wangEditor('id_content');
+    editor.create();
+</script>
+
+{% endblock js %}

@@ -1,0 +1,70 @@
+{% extends "index.html" %}
+
+
+{% block substyle %}
+
+
+    #article {
+    //width: 50%;
+    margin: auto;
+    min-height: 800px;
+    }
+
+
+    h3 {
+        text-align: center;
+        }
+
+
+{% endblock substyle %}
+
+
+
+{% block  article %}
+
+
+
+    <div id="article" class="">
+
+
+        <h3> {{ article.title }} </h3>
+
+        {% ifequal article.tag "python" %} <span class="label label-primary"> {{ article.tag }} </span> {% endifequal %}
+        {% ifequal article.tag "django" %} <span class="label label-success"> {{ article.tag }} </span> {% endifequal %}
+        {% ifequal article.tag "css" %} <span class="label label-info"> {{ article.tag }} </span> {% endifequal %}
+        {% ifequal article.tag "linux" %} <span class="label label-warning"> {{ article.tag }} </span> {% endifequal %}
+        {% ifequal article.tag "test" %} <span class="label label-danger"> {{ article.tag }} </span> {% endifequal %}
+        {% ifequal article.tag "others" %} <span class="label label-default"> {{ article.tag }} </span> {% endifequal %}
+            <hr>
+        <p>  {{ article.content|safe }} </p>
+        <hr>
+        <p>  {{ article.datetime }} </p>
+
+
+        <a class="btn btn-primary" href="{% url "blog_edit_page"   article.id %}">修改</a>
+
+        <button class="btn btn-primary" data-toggle="modal" data-target="#myModal">删除</button>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">信息</h4>
+                </div>
+                <div class="modal-body"><strong>确定删除吗?</strong></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">关闭</button>
+                    <a class="btn btn-danger" href="{% url "blog_del_page" article.id %}">确定</a>
+                </div>
+            </div>
+        </div>
+        </div>
+
+
+
+
+    </div>
+
+{% endblock article %}
+
+

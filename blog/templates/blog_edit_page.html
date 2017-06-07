@@ -1,0 +1,121 @@
+{% extends "index.html" %}
+
+{% block title %}Edit Blog{% endblock title %}
+
+{% block substyle %}
+
+    #edit {
+        //border: 5px inset darkgray ;
+        margin-left:auto;
+        margin-right: auto;
+        width: 50%;
+    }
+
+    h3 {
+        //text-align: center;
+        color:#0095dd;
+        margin-top: 80px;
+    }
+
+    hr {
+        margin: 0px auto 20px auto;
+        width: 100%;
+    }
+
+
+    label  {
+    //color: red;
+    font-size: 120%;
+    }
+
+    .errorlist {
+        color: red;
+        list-style-type: none;
+        padding: 0;
+
+    }
+
+
+
+{% endblock substyle %}
+
+{% block subcontent %}
+
+
+<h3>修改文章</h3>
+
+    <hr>
+
+<div id="edit">
+<form action="{% url "blog_edit_action" %}" method="POST">
+    {% csrf_token %}
+
+    {% if article %}
+
+        <input type="hidden" name="article_id" value="{{ article.id }}">
+
+        <div class="form-group">
+              <label for="id_title">文章标题:</label>
+              <input class="form-control" id="id_title" name="title" placeholder="请输入文章标题" type="text" value="{{ article.title }}" />
+        </div>
+        <div class="form-group">
+              <label for="id_content">文章内容:</label>
+              <textarea class="form-control" cols="40" id="id_content" name="content" placeholder="请输入文章内容" rows="10" >{{ article.content|safe }}</textarea>
+        </div>
+
+        <div class="form-group">
+              <label for="id_tag">文章标签:</label>
+              <input class="form-control" id="id_tag" name="tag" placeholder="请输入文章标签" type="text" value="{{ article.tag|safe }}" />
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-primary btn-block " type="submit">提交</button>
+        </div>
+
+
+
+
+
+
+    {% endif %}
+</form>
+</div>
+
+{% endblock subcontent %}
+
+{% block js %}
+
+<script type="text/javascript">
+    var editor = new wangEditor('id_content');
+
+    editor.config.menus =
+             [
+                'bold',
+                'underline',
+                'italic',
+                'strikethrough',
+                'eraser',
+                'forecolor',
+                'bgcolor',
+                'quote',
+                'fontfamily',
+                'fontsize',
+                'head',
+                'indent',
+                'lineheight',
+                'unorderlist',
+                'orderlist',
+                'alignleft',
+                'aligncenter',
+                'alignright',
+                'link',
+                'insertcode',
+                'undo',
+                'redo',
+                'fullscreen'
+            ];
+
+    editor.create();
+</script>
+
+{% endblock js %}
